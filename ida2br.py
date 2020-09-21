@@ -1,6 +1,6 @@
 import pyperclip
 
-offset = 0x200000
+offset = 0xc60000
 # simply copy and paste it in between """ """
 ida_search = """
 100148294	sub_100147D0C	MOV             W9, #0x7FFFFFFF
@@ -47,7 +47,8 @@ output = ""
 for line in ida_search.splitlines():
     if line: # ignore empty lines
         address = line.split("\t")[0]
-        br = "b 0x{}+{}".format(address, hex(offset))
+        temp = int(address, 16) + offset
+        br = "b {}".format(hex(temp))
         print(br)
         output += br + "\n"
 
