@@ -1,6 +1,6 @@
 import pyperclip
 
-offset = 0xc60000
+offset = 0xea0000
 with open("ida.txt", "r") as f:
     ida_search = f.read()
 
@@ -19,4 +19,3 @@ with open("ida.txt", "r") as f:
         print("\nCopied to clipboard")
 
     print("Done")
-

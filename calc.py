@@ -1,5 +1,5 @@
-offset = 0xc60000
-address = [0xf5559c, 0xf55e64, 0xf2cb00, 0xf35430]
+offset = 0xea0000
+address = [0x2F3E00]
 
 for a in address:
-    print(hex(a - offset))
+    print("sum: {}, diff: {}".format(hex(a + offset), hex(a - offset)))
