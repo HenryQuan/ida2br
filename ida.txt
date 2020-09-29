@@ -1,6 +1,0 @@
-Address	Function	Instruction
-__text:0000000100004B64	sub_100004AA8	ADDS            X8, X20, #1
-__text:0000000100005068	sub_100004ED4	ADD             X8, X8, #1
-__text:0000000100005170	sub_100004ED4	ADD             X8, X8, #1
-__text:00000001000052B8	sub_100004ED4	ADD             X8, X8, #1
-__text:0000000100005C20	sub_100005C18	ADD             X8, X0, #1
