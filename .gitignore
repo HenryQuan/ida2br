@@ -133,3 +133,7 @@ dmypy.json
 
 # examples
 /examples
+
+
+# ignore all txt files
+*.txt
