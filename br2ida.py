@@ -1,7 +1,7 @@
 import pyperclip
 import os
 
-text_file = "ida.txt"
+text_file = "br.txt"
 if not os.path.exists(text_file):
     with open(text_file, "w") as f:
         f.close()
@@ -13,10 +13,12 @@ with open(text_file, "r") as f:
 
     output = ""
     for line in ida_search.splitlines():
-        if line and not "Address" in line:  # ignore empty lines
-            address = line.split("\t")[0].replace("__text:", "")
-            temp = int(address, 16) + offset
-            br = "b {}".format(hex(temp))
+        if line and not "stop reason = breakpoint" in line:  # the first line
+            temp = line.replace("*", " ").split(" ")
+            address = temp[6]
+            number = temp[5]
+            temp = int(address, 16) - offset
+            br = "{} {}".format(number, hex(temp))
             print(br)
             output += br + "\n"
 
@@ -24,5 +26,3 @@ with open(text_file, "r") as f:
     if output:
         pyperclip.copy(output)
         print("\nCopied to clipboard")
-
-    print("Done")

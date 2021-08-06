@@ -1,1 +1,0 @@
-ln -s $( lldb -P )/lldb lldb
