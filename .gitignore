@@ -130,3 +130,6 @@ dmypy.json
 
 # linked lldb folder
 /lldb
+
+# examples
+/examples

@@ -21,6 +21,7 @@ def delbrc(debugger, command, *args):
             target = debugger.GetSelectedTarget()
             process = target.GetProcess()
             thread = process.GetSelectedThread()
+
     elif len(args) == 3:
         # New (2015 & later) lldb invocation style where we're given the execution context
         exe_ctx = args[0]
@@ -32,44 +33,46 @@ def delbrc(debugger, command, *args):
         return
 
     if thread == None:
-        print("error: process is not paused, or has not been started yet.", file=result)
+        print("ERROR - process is not paused, or has not been started yet.", file=result)
         result.SetStatus(lldb.eReturnStatusFailed)
         return
 
     if thread.GetStopReason() != lldb.eStopReasonBreakpoint:
-        print("error: not stopped at a breakpoint.", file=result)
+        print("ERROR - not stopped at a breakpoint.", file=result)
         result.SetStatus(lldb.eReturnStatusFailed)
         return
 
     if thread.GetStopReasonDataCount() != 2:
-        print("error: Unexpected number of StopReasonData returned, expected 2, got %d" %
+        print("ERROR - Unexpected number of StopReasonData returned, expected 2, got %d" %
               thread.GetStopReasonDataCount(), file=result)
         result.SetStatus(lldb.eReturnStatusFailed)
         return
 
-    break_num = thread.GetStopReasonDataAtIndex(0)
-    location_num = thread.GetStopReasonDataAtIndex(1)
+    breakpoint_count = thread.GetStopReasonDataAtIndex(0)
+    location_count = thread.GetStopReasonDataAtIndex(1)
 
-    if break_num == 0 or location_num == 0:
-        print("error: Got invalid breakpoint number or location number", file=result)
+    if breakpoint_count == 0 or location_count == 0:
+        print("ERROR - Got invalid breakpoint number or location number", file=result)
         result.SetStatus(lldb.eReturnStatusFailed)
         return
 
-    bkpt = target.FindBreakpointByID(break_num)
-    if location_num > bkpt.GetNumLocations():
-        print("error: Invalid location number", file=result)
+    bkpt = target.FindBreakpointByID(breakpoint_count)
+    if location_count > bkpt.GetNumLocations():
+        print("ERROR - Invalid location number", file=result)
         result.SetStatus(lldb.eReturnStatusFailed)
         return
 
-    bkpt_loc = bkpt.GetLocationAtIndex(location_num - 1)
-    if bkpt_loc.IsValid() != True:
-        print("error: Got invalid BreakpointLocation", file=result)
+    breakpoint_loc = bkpt.GetLocationAtIndex(location_count - 1)
+    if breakpoint_loc.IsValid() != True:
+        print("ERROR - Got invalid BreakpointLocation", file=result)
         result.SetStatus(lldb.eReturnStatusFailed)
         return
 
-    bkpt_loc.SetEnabled(False)
+    breakpoint_loc.SetEnabled(False)
+    # continue running
+    thread.process.Continue()
     print("Breakpoint %d.%d disabled." %
-          (break_num, location_num), file=result)
+          (breakpoint_count, location_count), file=result)
     return
 
 
