@@ -1,13 +1,12 @@
-import pyperclip
 import os
 
-text_file = "br.txt"
+text_file = "bt.txt"
 if not os.path.exists(text_file):
     with open(text_file, "w") as f:
         f.close()
     exit("{} is not found, it has been created".format(text_file))
 
-offset = 0x90000
+offset = 0xb28000
 with open(text_file, "r") as f:
     ida_search = f.read()
 
@@ -21,8 +20,3 @@ with open(text_file, "r") as f:
             br = "{} {}".format(number, hex(temp))
             print(br)
             output += br + "\n"
-
-    # only copy if output is not empty
-    if output:
-        pyperclip.copy(output)
-        print("\nCopied to clipboard")

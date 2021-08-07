@@ -7,7 +7,7 @@ if not os.path.exists(text_file):
         f.close()
     exit("{} is not found, it has been created".format(text_file))
 
-offset = 0x90000
+offset = 0xb28000
 with open(text_file, "r") as f:
     ida_search = f.read()
 
