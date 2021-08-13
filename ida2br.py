@@ -1,5 +1,6 @@
 import pyperclip
 import os
+from offset import OFFSET
 
 text_file = "ida.txt"
 if not os.path.exists(text_file):
@@ -7,7 +8,6 @@ if not os.path.exists(text_file):
         f.close()
     exit("{} is not found, it has been created".format(text_file))
 
-offset = 0xb28000
 with open(text_file, "r") as f:
     ida_search = f.read()
 
@@ -15,7 +15,7 @@ with open(text_file, "r") as f:
     for line in ida_search.splitlines():
         if line and not "Address" in line:  # ignore empty lines
             address = line.split("\t")[0].replace("__text:", "")
-            temp = int(address, 16) + offset
+            temp = int(address, 16) + OFFSET
             br = "b {}".format(hex(temp))
             print(br)
             output += br + "\n"

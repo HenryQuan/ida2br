@@ -1,4 +1,5 @@
 import os
+from offset import OFFSET
 
 text_file = "bt.txt"
 if not os.path.exists(text_file):
@@ -6,7 +7,6 @@ if not os.path.exists(text_file):
         f.close()
     exit("{} is not found, it has been created".format(text_file))
 
-offset = 0xb28000
 with open(text_file, "r") as f:
     ida_search = f.read()
 
@@ -16,7 +16,7 @@ with open(text_file, "r") as f:
             temp = line.replace("*", " ").split(" ")
             address = temp[6]
             number = temp[5]
-            temp = int(address, 16) - offset
+            temp = int(address, 16) - OFFSET
             br = "{} {}".format(number, hex(temp))
             print(br)
             output += br + "\n"
